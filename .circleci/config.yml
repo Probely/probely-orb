@@ -3,14 +3,8 @@ version: 2.1
 orbs:
   orb-tools: circleci/orb-tools@8.5.0
 
-executors:
-  ci-base:
-    resource_class: small
-    docker:
-      - image: cibuilds/base
-
 add-ssh-keys: &add-ssh-keys
-  [add_ssh_keys: {fingerprints: ["f3:c2:30:4b:fb:7a:50:53:5b:52:2f:a4:93:1d:53:6d"]}]
+  [add_ssh_keys: {fingerprints: ["e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76"]}]
 
 workflows:
   lint_pack-validate_publish-dev:
@@ -28,19 +22,8 @@ workflows:
             - orb-tools/pack
 
       - orb-tools/trigger-integration-workflow:
-          context: orb-publishing
-          name: trigger-integration-dev
-          ssh-fingerprints: f3:c2:30:4b:fb:7a:50:53:5b:52:2f:a4:93:1d:53:6d
-          cleanup-tags: true
-          requires:
-            - orb-tools/publish-dev
-          filters:
-            branches:
-              ignore: master
-
-      - orb-tools/trigger-integration-workflow:
           name: trigger-integration-master
-          ssh-fingerprints: f3:c2:30:4b:fb:7a:50:53:5b:52:2f:a4:93:1d:53:6d
+          ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
           cleanup-tags: true
           tag: master
           requires:
@@ -49,13 +32,15 @@ workflows:
             branches:
               only: master
 
-  integration_tests-prod_deploy:
+  integration-tests_prod-release:
     jobs:
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
           name: dev-promote-patch
           context: orb-publishing
           orb-name: probely/security-scan
+          requires:
+          - integration-tests-master
           filters:
             branches:
               ignore: /.*/
@@ -67,6 +52,8 @@ workflows:
           release: minor
           context: orb-publishing
           orb-name: probely/security-scan
+          requires:
+          - integration-tests-master
           filters:
             branches:
               ignore: /.*/
@@ -78,6 +65,8 @@ workflows:
           release: major
           context: orb-publishing
           orb-name: probely/security-scan
+          requires:
+          - integration-tests-master
           filters:
             branches:
               ignore: /.*/
