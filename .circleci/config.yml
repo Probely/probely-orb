@@ -39,8 +39,6 @@ workflows:
           name: dev-promote-patch
           context: orb-publishing
           orb-name: probely/security-scan
-          requires:
-          - integration-tests-master
           filters:
             branches:
               ignore: /.*/
@@ -52,8 +50,6 @@ workflows:
           release: minor
           context: orb-publishing
           orb-name: probely/security-scan
-          requires:
-          - integration-tests-master
           filters:
             branches:
               ignore: /.*/
@@ -65,8 +61,6 @@ workflows:
           release: major
           context: orb-publishing
           orb-name: probely/security-scan
-          requires:
-          - integration-tests-master
           filters:
             branches:
               ignore: /.*/
