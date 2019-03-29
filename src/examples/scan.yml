@@ -1,7 +1,7 @@
 description: Start the scan on a target (website) using Probely.
 usage:
   orbs:
-    probely: circleci/probely@1.0.0
+    probely: probely/security-scan@1.0.0
   version: 2.1
   workflows:
     example-workflow:
