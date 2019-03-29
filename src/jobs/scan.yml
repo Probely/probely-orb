@@ -3,8 +3,8 @@ executor: alpine
 parameters:
   api_key:
     description: >
-      The Probely API key to use. Defaulting to the PROBELY_API_KEY 
-      environment variable. We encourage you to populate the environment 
+      The Probely API key to use. Defaulting to the PROBELY_API_KEY
+      environment variable. We encourage you to populate the environment
       variable instead of exposing the API key in the code.
     type: string
     default: ${PROBELY_API_KEY}
