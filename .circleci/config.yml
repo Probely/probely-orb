@@ -3,9 +3,6 @@ version: 2.1
 orbs:
   orb-tools: circleci/orb-tools@8.5.0
 
-add-ssh-keys: &add-ssh-keys
-  [add_ssh_keys: {fingerprints: ["e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76"]}]
-
 workflows:
   lint_pack-validate_publish-dev:
     jobs:
