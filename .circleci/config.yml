@@ -1,0 +1,86 @@
+version: 2.1
+
+orbs:
+  orb-tools: circleci/orb-tools@8.5.0
+  probely: probely/security-scan@dev:alpha
+
+executors:
+  ci-base:
+    resource_class: small
+    docker:
+      - image: cibuilds/base
+
+add-ssh-keys: &add-ssh-keys
+  [add_ssh_keys: {fingerprints: ["f3:c2:30:4b:fb:7a:50:53:5b:52:2f:a4:93:1d:53:6d"]}]
+
+workflows:
+  lint_pack-validate_publish-dev:
+    jobs:
+      - orb-tools/lint
+
+      - orb-tools/pack:
+          requires:
+            - orb-tools/lint
+
+      - orb-tools/publish-dev:
+          context: orb-publishing
+          orb-name: probely/security-scan
+          requires:
+            - orb-tools/pack
+
+      - orb-tools/trigger-integration-workflow:
+          context: orb-publishing
+          name: trigger-integration-dev
+          ssh-fingerprints: f3:c2:30:4b:fb:7a:50:53:5b:52:2f:a4:93:1d:53:6d 
+          cleanup-tags: true
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              ignore: master
+
+      - orb-tools/trigger-integration-workflow:
+          name: trigger-integration-master
+          ssh-fingerprints: f3:c2:30:4b:fb:7a:50:53:5b:52:2f:a4:93:1d:53:6d
+          cleanup-tags: true
+          tag: master
+          requires:
+            - orb-tools/publish-dev
+          filters:
+            branches:
+              only: master
+
+  integration_tests-prod_deploy:
+    jobs:
+      # patch, minor, or major publishing
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-patch
+          context: orb-publishing
+          orb-name: probely/security-scan
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-patch.*/
+
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-minor
+          release: minor
+          context: orb-publishing
+          orb-name: probely/security-scan 
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-minor.*/
+
+      - orb-tools/dev-promote-prod:
+          name: dev-promote-major
+          release: major
+          context: orb-publishing
+          orb-name: probely/security-scan
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /master-major.*/

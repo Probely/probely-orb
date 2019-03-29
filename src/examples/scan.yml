@@ -1,0 +1,11 @@
+description: Start the scan on a target (website) using Probely.
+usage:
+  orbs:
+    probely: circleci/probely@1.0.0
+  version: 2.1
+  workflows:
+    example-workflow:
+      jobs:
+      - probely/scan:
+          api_key: ${PROBELY_API_KEY}
+          target_id: some_target_id

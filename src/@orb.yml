@@ -1,0 +1,5 @@
+version: 2.1
+
+description: |
+  Use Probely to scan your web application for security vulnerabilities.
+
