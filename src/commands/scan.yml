@@ -20,20 +20,20 @@ parameters:
 steps:
 - run:
     name: Probely - Starting Security Scan
-  command: |
-    # Check if API key is set
-    if [ -z "<< parameters.api_key >>" ]; then
-      echo "NO PROBELY API KEY SET"
-      echo "Please set your API key either in the PROBELY_API_KEY " \
-           "environment variable, or as a parameter for this orb."
-      exit 1
-    fi
-    # Check if target id is set
-    if [ -z "<< parameters.target_id >>" ]; then
-      echo "NO PROBELY TARGET ID SET"
-      echo "Please set the target id as a parameter for this orb."
-      exit 1
-    fi
-    curl -X POST \
-        -H "Authorization: JWT << parameters.api_key >>" \
-        << parameters.api_url >>/targets/<< parameters.target_id >>/scan_now/
+    command: |
+      # Check if API key is set
+      if [ -z "<< parameters.api_key >>" ]; then
+        echo "NO PROBELY API KEY SET"
+        echo "Please set your API key either in the PROBELY_API_KEY " \
+             "environment variable, or as a parameter for this orb."
+        exit 1
+      fi
+      # Check if target id is set
+      if [ -z "<< parameters.target_id >>" ]; then
+        echo "NO PROBELY TARGET ID SET"
+        echo "Please set the target id as a parameter for this orb."
+        exit 1
+      fi
+      curl -X POST \
+          -H "Authorization: JWT << parameters.api_key >>" \
+          << parameters.api_url >>/targets/<< parameters.target_id >>/scan_now/
