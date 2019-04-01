@@ -68,7 +68,7 @@ workflows:
       # triggered by master branch commits
       - scantest:
           name: scantest-master
-          filters: *integration-master-filters
+          filters: *integration-master_filters
 
       # patch, minor, or major publishing
       - orb-tools/dev-promote-prod:
