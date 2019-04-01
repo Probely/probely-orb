@@ -65,7 +65,7 @@ workflows:
       - scantest:
           name: scantest-dev
           filters: *integration-dev_filters
-	  # triggered by master branch commits
+      # triggered by master branch commits
       - scantest:
           name: scantest-master
           filters: *integration-master-filters
