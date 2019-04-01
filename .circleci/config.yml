@@ -37,65 +37,68 @@ prod-deploy_requires: &prod-deploy_requires
 workflows:
   lint_pack-validate_publish-dev:
     jobs:
-      - orb-tools/lint
+    - orb-tools/lint
 
-      - orb-tools/pack:
-          requires:
-            - orb-tools/lint
+    - orb-tools/pack:
+        requires:
+        - orb-tools/lint
 
-      - orb-tools/publish-dev:
-          orb-name: probely/security-scan
-          requires:
-            - orb-tools/pack
+    - orb-tools/publish-dev:
+        orb-name: probely/security-scan
+        requires:
+        - orb-tools/pack
 
-      - orb-tools/trigger-integration-workflow:
-          name: trigger-integration-master
-          ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
-          cleanup-tags: true
-          tag: master
-          requires:
-            - orb-tools/publish-dev
-          filters:
-            branches:
-              only: master
+    - orb-tools/trigger-integration-workflow:
+        name: trigger-integration-master
+        ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
+        cleanup-tags: true
+        tag: master
+        requires:
+        - orb-tools/publish-dev
+        filters:
+          branches:
+            only: master
 
   integration-tests_prod-release:
     jobs:
-      # triggered by non-master branch commits
-      - scantest:
-          name: scantest-dev
-          filters: *integration-dev_filters
-      # triggered by master branch commits
-      - scantest:
-          name: scantest-master
-          filters: *integration-master_filters
+    # triggered by non-master branch commits
+    - scantest:
+        name: scantest-dev
+        filters: *integration-dev_filters
+    # triggered by master branch commits
+    - scantest:
+        name: scantest-master
+        filters: *integration-master_filters
 
-      # patch, minor, or major publishing
-      - orb-tools/dev-promote-prod:
-          name: dev-promote-patch
-          orb-name: probely/security-scan
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /master-patch.*/
+    # patch, minor, or major publishing
+    - orb-tools/dev-promote-prod:
+        name: dev-promote-patch
+        orb-name: probely/security-scan
+        requires: *prod-deploy_requires
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /master-patch.*/
 
-      - orb-tools/dev-promote-prod:
-          name: dev-promote-minor
-          release: minor
-          orb-name: probely/security-scan
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /master-minor.*/
+    - orb-tools/dev-promote-prod:
+        name: dev-promote-minor
+        release: minor
+        orb-name: probely/security-scan
+        requires: *prod-deploy_requires
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /master-minor.*/
 
-      - orb-tools/dev-promote-prod:
-          name: dev-promote-major
-          release: major
-          orb-name: probely/security-scan
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /master-major.*/
+    - orb-tools/dev-promote-prod:
+        name: dev-promote-major
+        release: major
+        requires: *prod-deploy_requires
+        orb-name: probely/security-scan
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /master-major.*/
