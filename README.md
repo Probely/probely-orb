@@ -14,7 +14,8 @@ the lifecycle of the vulnerabilities found. Some of its main features are:
  * Designed for developers, easy to use, easy to understand.
  * Re-test vulnerabilities, define custom headers, multiple users, CVSS score, scheduling, and more.
 
-# Installing the orb
+# Using the orb
+Detailed usage instructions for the Orb are provided in the CircleCI [registry](https://circleci.com/orbs/registry/orb/probely/security-scan).
 
 # Generating an API key
 Before using the plugin, you first need to create an API key for Jenkins to be able to start a scan with Probely.
