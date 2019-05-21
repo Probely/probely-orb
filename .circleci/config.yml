@@ -17,7 +17,6 @@ jobs:
     - run: exit 0 # toggle this to force success or status for testing
     - probely/scan:
         target_id: ${PROBELY_TARGET_ID}
-        api_key: ${PROBELY_API_KEY}
 
 integration-dev_filters: &integration-dev_filters
   branches:

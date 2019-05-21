@@ -4,11 +4,10 @@ description: |
 parameters:
   api_key:
     description: >
-      The Probely API key to use. Defaulting to the PROBELY_API_KEY
-      environment variable. We encourage you to populate the environment
-      variable instead of exposing the API key in the code.
-    type: string
-    default: ${PROBELY_API_KEY}
+      The Probely API key to use, defined in the PROBELY_API_KEY
+      environment variable.
+    type: env_var_name
+    default: PROBELY_API_KEY
   target_id:
     description: The id of the target (website) to scan.
     type: string
@@ -24,8 +23,8 @@ steps:
       # Check if API key is set
       if [ -z "<< parameters.api_key >>" ]; then
         echo "NO PROBELY API KEY SET"
-        echo "Please set your API key either in the PROBELY_API_KEY " \
-             "environment variable, or as a parameter for this orb."
+        echo "Please set your API key in the PROBELY_API_KEY environment "
+             "variable."
         exit 1
       fi
       # Check if target id is set

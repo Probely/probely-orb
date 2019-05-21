@@ -7,5 +7,4 @@ usage:
     example-workflow:
       jobs:
       - probely/scan:
-          api_key: ${PROBELY_API_KEY}
           target_id: some_target_id
