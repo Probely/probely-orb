@@ -26,9 +26,7 @@ integration-dev_filters: &integration-dev_filters
 
 integration-master_filters: &integration-master_filters
   branches:
-    ignore: /.*/
-  tags:
-    only: /master-.*/
+    only: master
 
 prod-deploy_requires: &prod-deploy_requires
 - scantest-master
