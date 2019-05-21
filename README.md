@@ -5,7 +5,7 @@ security vulnerabilities. It enables security testing in your [CircleCI](https:/
 
 ## What is CircleCI?
 
-CircleCI is a leading continuous integration tool that allows building, testing,
+[CircleCI](https://circleci.com) is a leading continuous integration tool that allows building, testing,
 and deploying applications.
 Orbs allow CircleCI to be extended with additional functionality. In this
 particular case, this orb integrates Probely with CircleCI enabling security
@@ -13,7 +13,7 @@ testing of your applications.
 
 ## What is Probely?
 
-Probely is a Web Vulnerability Scanning suite for Agile Teams. It provides 
+[Probely](https://probely.com) is a Web Vulnerability Scanning suite for Agile Teams. It provides 
 continuous scanning of your Web Applications and lets you efficiently manage 
 the lifecycle of the vulnerabilities found. Some of its main features are:
 
@@ -34,7 +34,7 @@ Detailed usage instructions for the Orb are provided in the CircleCI [registry](
 
 Before using the plugin, you first need to create an API key for CircleCI to be able to start a scan with Probely.
 
-1. Go to [Probey](https://app.probely.com), and log in
+1. Go to [Probely](https://app.probely.com), and log in
 1. Select a target from the drop-down list
 1. Go to the **Settings** page
 1. Click on the **Integrations** tab
