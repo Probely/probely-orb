@@ -1,4 +1,4 @@
-# Probely Security Scanner Orb
+# Probely Security Scanner Orb [![CircleCI Build Status](https://circleci.com/gh/Probely/security-scan.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/Probely/security-scan) [![CircleCI Orb Version](https://img.shields.io/badge/endpoint.svg?url=https://badges.circleci.io/orb/circleci/slack)](https://circleci.com/orbs/registry/orb/circleci/slack) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Probely/security-scan/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/orbs)
 
 This orb uses [Probely](https://probely.com) to scan your web application for 
 security vulnerabilities. It enables security testing in your [CircleCI](https://circleci.com) pipeline.
