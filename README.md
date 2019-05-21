@@ -11,6 +11,8 @@ Orbs allow CircleCI to be extended with additional functionality. In this
 particular case, this orb integrates Probely with CircleCI enabling security
 testing of your applications.
 
+You can learn more about Orbs [here](https://circleci.com/docs/2.0/using-orbs/).
+
 ## What is Probely?
 
 [Probely](https://probely.com) is a Web Vulnerability Scanning suite for Agile Teams. It provides 
@@ -26,11 +28,37 @@ the lifecycle of the vulnerabilities found. Some of its main features are:
  * Designed for developers, easy to use, easy to understand.
  * Re-test vulnerabilities, define custom headers, multiple users, CVSS score, scheduling, and more.
 
-# Using the orb
+# Usage
 
-Detailed usage instructions for the Orb are provided in the CircleCI [registry](https://circleci.com/orbs/registry/orb/probely/security-scan).
+Example `config.yml`:
 
-# Generating an API key on Probely
+```yaml
+version: 2.1
+
+orbs:
+  probely: probely/security-scan@1.1.3
+
+jobs:
+  scantest:
+    executor: ci-base
+    steps:
+    - run: exit 0 # toggle this to force success or status for testing
+    - probely/scan:
+	# Remember to set the PROBELY_API_KEY environment variable!
+        target_id: ${PROBELY_TARGET_ID}
+```
+
+Detailed usage for the Orb is provided in the CircleCI orb [registry](https://circleci.com/orbs/registry/orb/probely/security-scan).
+
+# Dependencies
+
+## cURL
+
+cURL is used to call the Probely API, and must be installed in the container to function properly.
+
+# Help
+
+## Generating an API key on Probely
 
 Before using the plugin, you first need to create an API key for CircleCI to be able to start a scan with Probely.
 

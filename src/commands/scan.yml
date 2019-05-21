@@ -21,10 +21,9 @@ steps:
     name: Probely - Starting Security Scan
     command: |
       # Check if API key is set
-      if [ -z "<< parameters.api_key >>" ]; then
+      if [ -z "${<< parameters.api_key >>}" ]; then
         echo "NO PROBELY API KEY SET"
-        echo "Please set your API key in the PROBELY_API_KEY environment "
-             "variable."
+        echo "Please set your API key in the << parameters.api_key >> variable"
         exit 1
       fi
       # Check if target id is set
@@ -34,5 +33,6 @@ steps:
         exit 1
       fi
       curl -X POST \
-          -H "Authorization: JWT << parameters.api_key >>" \
+          -H "Authorization: JWT ${<< parameters.api_key >>}" \
           << parameters.api_url >>/targets/<< parameters.target_id >>/scan_now/
+      exit $?
