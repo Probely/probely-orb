@@ -7,4 +7,5 @@ usage:
     example-workflow:
       jobs:
       - probely/scan:
+          # Remember to set the PROBELY_API_KEY environment variable!
           target_id: some_target_id

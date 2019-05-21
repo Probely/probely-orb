@@ -2,3 +2,4 @@ version: 2.1
 
 description: |
   Use Probely to scan your web application for security vulnerabilities.
+  Full orb source code: https://github.com/Probely/probely-orb
