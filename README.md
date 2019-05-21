@@ -44,7 +44,7 @@ jobs:
     steps:
     - run: exit 0 # toggle this to force success or status for testing
     - probely/scan:
-	# Remember to set the PROBELY_API_KEY environment variable!
+        # Remember to set the PROBELY_API_KEY environment variable!
         target_id: ${PROBELY_TARGET_ID}
 ```
 
