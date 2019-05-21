@@ -24,9 +24,11 @@ integration-dev_filters: &integration-dev_filters
   tags:
     only: /integration-.*/
 
-master_filters: &master_filters
+integration-master_filters: &integration-master_filters
   branches:
-    only: master
+    ignore: /.*/
+  tags:
+    only: /master-.*/
 
 prod-deploy_requires: &prod-deploy_requires
 - scantest-master
@@ -65,7 +67,7 @@ workflows:
     # triggered by master branch commits
     - scantest:
         name: scantest-master
-        filters: *master_filters
+        filters: *integration-master_filters
 
     # patch, minor, or major publishing
     - orb-tools/dev-promote-prod:
