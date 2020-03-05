@@ -36,7 +36,7 @@ Example `config.yml`:
 version: 2.1
 
 orbs:
-  probely: probely/security-scan@1.1.3
+  probely: probely/security-scan@1.1.2
 
 jobs:
   scantest:
