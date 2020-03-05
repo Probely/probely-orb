@@ -1,7 +1,5 @@
 description: Start a scan on a target (website) using Probely.
-executor:
-  - default:
-      tag: latest
+executor: alpine
 parameters:
   api_key:
     description: >
@@ -13,5 +11,5 @@ parameters:
     description: The id of the target (website) to scan.
     type: string
 steps:
-  - scan:
-      target_id: << parameters.target_id >>
+- scan:
+    target_id: << parameters.target_id >>
