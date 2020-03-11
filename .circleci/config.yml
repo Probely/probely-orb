@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  orb-tools: circleci/orb-tools@8.5.0
+  orb-tools: circleci/orb-tools@9.0.1
   probely: probely/security-scan@dev:alpha
 
 executors:
@@ -26,7 +26,10 @@ integration-dev_filters: &integration-dev_filters
 
 integration-master_filters: &integration-master_filters
   branches:
-    only: master
+    ignore: /.*/
+  tags:
+    only:
+      /master-.*/
 
 prod-deploy_requires: &prod-deploy_requires
 - scantest-master
@@ -45,6 +48,16 @@ workflows:
         requires:
         - orb-tools/pack
 
+  - orb-tools/trigger-integration-workflow:
+      name: trigger-integration-dev
+      ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
+      cleanup-tags: true
+      requires:
+	  - orb-tools/publish-dev
+      filters:
+        branches:
+          ignore: master
+
     - orb-tools/trigger-integration-workflow:
         name: trigger-integration-master
         ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
@@ -56,7 +69,7 @@ workflows:
           branches:
             only: master
 
-  integration-tests_prod-release:
+  integration-tests_prod-deploy:
     jobs:
     # triggered by non-master branch commits
     - scantest:
