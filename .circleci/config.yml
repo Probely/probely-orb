@@ -40,34 +40,34 @@ workflows:
     - orb-tools/lint
 
     - orb-tools/pack:
-      requires:
-      - orb-tools/lint
+        requires:
+        - orb-tools/lint
 
     - orb-tools/publish-dev:
-      orb-name: probely/security-scan
-      requires:
-      - orb-tools/pack
+        orb-name: probely/security-scan
+        requires:
+        - orb-tools/pack
 
     - orb-tools/trigger-integration-workflow:
-      name: trigger-integration-dev
-      ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
-      cleanup-tags: true
-      requires:
-      - orb-tools/publish-dev
-      filters:
-        branches:
-          ignore: master
+        name: trigger-integration-dev
+        ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
+        cleanup-tags: true
+        requires:
+        - orb-tools/publish-dev
+        filters:
+          branches:
+            ignore: master
 
     - orb-tools/trigger-integration-workflow:
-      name: trigger-integration-master
-      ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
-      cleanup-tags: true
-      tag: master
-      requires:
-      - orb-tools/publish-dev
-      filters:
-        branches:
-          only: master
+        name: trigger-integration-master
+        ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
+        cleanup-tags: true
+        tag: master
+        requires:
+        - orb-tools/publish-dev
+        filters:
+          branches:
+            only: master
 
   integration-tests_prod-deploy:
     jobs:
