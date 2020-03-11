@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  orb-tools: circleci/orb-tools@9.0.1
+  orb-tools: circleci/orb-tools@8.27.6
   probely: probely/security-scan@dev:alpha
 
 executors:
