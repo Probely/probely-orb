@@ -1,0 +1,14 @@
+description: Get scan vulnerabilities.
+executor: alpine
+parameters:
+  api_key:
+    default: PROBELY_API_KEY
+    description: |
+      The Probely API key to use, defined in the PROBELY_API_KEY environment variable.
+    type: env_var_name
+  target_id:
+    description: The id of the target (website) to scan.
+    type: string
+steps:
+- vulnerabilities:
+    target_id: << parameters.target_id >>

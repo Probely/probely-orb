@@ -1,4 +1,4 @@
-description: Start the scan on a target (website) using Probely.
+description: Start the scan on a target (website) using Probely and then get scan vulnerabilities.
 usage:
   orbs:
     probely: probely/security-scan@x.y.z
@@ -9,3 +9,9 @@ usage:
       - probely/scan:
           # Remember to set the PROBELY_API_KEY environment variable!
           target_id: probely_target_id # Target id of the website to scan
+      - probely/vulnerabilities:
+          requires:
+            - probely/scan
+          # Remember to set the PROBELY_API_KEY environment variable!
+          target_id: probely_target_id # Target id of the website to scan
+

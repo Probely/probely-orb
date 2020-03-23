@@ -1,0 +1,63 @@
+description: |
+  Get scan vulnerabilities.
+
+parameters:
+  api_key:
+    default: PROBELY_API_KEY
+    description: |
+      The Probely API key to use, defined in the PROBELY_API_KEY environment variable.
+    type: env_var_name
+  api_url:
+    default: https://api.probely.com
+    description: The URL of Probely's API
+    type: string
+  target_id:
+    description: The id of the target (website) to scan.
+    type: string
+
+steps:
+- attach_workspace:
+    at: /tmp/workspace
+- run:
+    name: Probely - Getting Security Scan Vulnerabilities
+    command: |
+      # Check if API key is set
+      if [ -z "${<< parameters.api_key >>}" ]; then
+        echo "NO PROBELY API KEY SET"
+        echo "Please set your API key in the << parameters.api_key >> variable"
+        exit 1
+      fi
+      # Check if target id is set
+      if [ -z "<< parameters.target_id >>" ]; then
+        echo "NO PROBELY TARGET ID SET"
+        echo "Please set the target id as a parameter for this orb."
+        exit 1
+      fi
+      # Load the id that we saved before
+      myid=$(cat /tmp/workspace/echo-output)
+      mystatus="started"
+      # For every minute verify if the scan is over
+      while [ "$mystatus" != completed ]
+      do
+        sleep 60s
+        mystatus=$(curl << parameters.api_url >>/targets/<< parameters.target_id >>/scans/$myid/ \
+        -X GET \
+        -H "Content-Type: application/json" \
+        -H "Authorization: JWT ${<< parameters.api_key >>}"| jq '.status' | tr -d '"')
+        echo status: $mystatus
+      done
+      # Get all vulnerabilities
+      myvulnerabilities=$(curl << parameters.api_url >>/targets/<< parameters.target_id >>/scans/$myid/ \
+        -X GET \
+        -H "Content-Type: application/json" \
+        -H "Authorization: JWT ${<< parameters.api_key >>}"| jq ' . | {lows:.lows,mediums:.mediums,highs:.highs}')
+      echo Vulnerabilities of your scan = $myvulnerabilities
+      # We want high vulnerabilities
+      myhighs=`echo $myvulnerabilities | jq '.highs'`
+      if [[ $myhighs -eq 0 ]]; then
+        echo "Everything is fine!";
+        exit $?
+      else
+        echo "We find high vulnerabilities in your scan!";
+        exit 1
+      fi
