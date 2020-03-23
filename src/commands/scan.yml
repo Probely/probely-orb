@@ -17,6 +17,7 @@ parameters:
     default: https://api.probely.com
 
 steps:
+- run: mkdir -p workspace
 - run:
     name: Probely - Starting Security Scan
     command: |
@@ -32,7 +33,10 @@ steps:
         echo "Please set the target id as a parameter for this orb."
         exit 1
       fi
-      curl -X POST \
-          -H "Authorization: JWT ${<< parameters.api_key >>}" \
-          << parameters.api_url >>/targets/<< parameters.target_id >>/scan_now/
+      # Save the id to use in Vulnerabilities job
+      myid=$(curl << parameters.api_url >>/targets/<< parameters.target_id >>/scan_now/ \
+        -X POST \
+        -H "Content-Type: application/json" \
+        -H "Authorization: JWT ${<< parameters.api_key >>}"| jq '.id' | tr -d '"')
+      echo $myid > workspace/echo-output
       exit $?
