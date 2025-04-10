@@ -3,3 +3,4 @@ docker:
 - image: cibuilds/base:latest
   environment:
     TERM: dumb
+working_directory: /tmp
