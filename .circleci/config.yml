@@ -24,15 +24,15 @@ integration-dev_filters: &integration-dev_filters
   tags:
     only: /integration-.*/
 
-integration-master_filters: &integration-master_filters
+integration-main_filters: &integration-main_filters
   branches:
     ignore: /.*/
   tags:
     only:
-      /master-.*/
+      /main-.*/
 
 prod-deploy_requires: &prod-deploy_requires
-- scantest-master
+- scantest-main
 
 workflows:
   lint_pack-validate_publish-dev:
@@ -56,29 +56,29 @@ workflows:
         - orb-tools/publish-dev
         filters:
           branches:
-            ignore: master
+            ignore: main
 
     - orb-tools/trigger-integration-workflow:
-        name: trigger-integration-master
+        name: trigger-integration-main
         ssh-fingerprints: e9:f6:21:2e:39:71:e1:49:24:6c:8a:02:8d:4e:36:76
         cleanup-tags: true
-        tag: master
+        tag: main
         requires:
         - orb-tools/publish-dev
         filters:
           branches:
-            only: master
+            only: main
 
   integration-tests_prod-deploy:
     jobs:
-    # triggered by non-master branch commits
+    # triggered by non-main branch commits
     - scantest:
         name: scantest-dev
         filters: *integration-dev_filters
-    # triggered by master branch commits
+    # triggered by main branch commits
     - scantest:
-        name: scantest-master
-        filters: *integration-master_filters
+        name: scantest-main
+        filters: *integration-main_filters
 
     # patch, minor, or major publishing
     - orb-tools/dev-promote-prod:
@@ -89,7 +89,7 @@ workflows:
           branches:
             ignore: /.*/
           tags:
-            only: /master-patch.*/
+            only: /main-patch.*/
 
     - orb-tools/dev-promote-prod:
         name: dev-promote-minor
@@ -100,7 +100,7 @@ workflows:
           branches:
             ignore: /.*/
           tags:
-            only: /master-minor.*/
+            only: /main-minor.*/
 
     - orb-tools/dev-promote-prod:
         name: dev-promote-major
@@ -111,4 +111,4 @@ workflows:
           branches:
             ignore: /.*/
           tags:
-            only: /master-major.*/
+            only: /main-major.*/
